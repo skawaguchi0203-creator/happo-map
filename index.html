@@ -99,13 +99,12 @@
         
     
             // 初期表示：八方エリア（余白つきで表示）
-// ===== 初期表示：サンテラスぱのらまを中心に =====
-const START_CENTER = [36.7027129, 137.8207766]; // サンテラスぱのらま
-const START_ZOOM = 16; // 15〜17あたりが見やすい
+tile_layer_a52f8a0f7c5a33061c0ff492b1bfe566.addTo(map_a9dc6387e2c9837402c0a2d7a73a526a);
 
+// ===== 初期表示：サンテラスぱのらま中心 =====
 map_a9dc6387e2c9837402c0a2d7a73a526a.setView(
-  START_CENTER,
-  START_ZOOM,
+  [36.7027129, 137.8207766], // サンテラスぱのらま
+  16,                       // 初期ズーム
   { animate: false }
 );
 

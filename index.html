@@ -101,18 +101,21 @@
             // 初期表示：八方エリア（余白つきで表示）
 tile_layer_a52f8a0f7c5a33061c0ff492b1bfe566.addTo(map_a9dc6387e2c9837402c0a2d7a73a526a);
 
-// ===== 初期表示：サンテラスぱのらま中心 =====
-map_a9dc6387e2c9837402c0a2d7a73a526a.setView(
-  [36.7027129, 137.8207766], // サンテラスぱのらま
-  16,                       // 初期ズーム
-  { animate: false }
+
+
+tile_layer_a52f8a0f7c5a33061c0ff492b1bfe566.addTo(map_a9dc6387e2c9837402c0a2d7a73a526a);
+
+// ===== 初期表示：八方エリア全体が収まる =====
+const HAPPO_BOUNDS = L.latLngBounds(
+  [36.6915, 137.8025], // 南西
+  [36.7055, 137.8245]  // 北東
 );
 
-            // ===== 八方エリア固定 =====
-const HAPPO_BOUNDS = L.latLngBounds(
-  [36.6915, 137.8025],
-  [36.7055, 137.8245]
-);
+map_a9dc6387e2c9837402c0a2d7a73a526a.fitBounds(HAPPO_BOUNDS, {
+  padding: [20, 20],
+  maxZoom: 16,
+  animate: false
+});
 
 
 

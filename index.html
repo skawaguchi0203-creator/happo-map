@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>八方尾根マップ</title>
+
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+    crossorigin=""
+  />
+  <script
+    src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+    crossorigin=""
+  ></script>
+
+  <style>
+    html, body { height: 100%; margin: 0; }
+    #map { height: 100%; width: 100%; }
+    .controls {
+      position: absolute; z-index: 1000; left: 12px; top: 12px;
+      display: flex; gap: 8px; align-items: center;
+    }
+    button {
+      border: 0; border-radius: 10px; padding: 10px 12px;
+      background: #111827; color: white; font-size: 14px;
+    }
+    .status {
+      background: rgba(255,255,255,0.92);
+      padding: 8px 10px; border-radius: 10px; font-size: 12px;
+      max-width: 70vw;
+    }
+  </style>
+</head>
+<body>
+  <div class="controls">
+    <button id="locBtn">現在地を更新</button>
+    <button id="watchBtn">追従OFF</button>
+    <div class="status" id="status">未取得（HTTPSで開いて、位置情報を許可してください）</div>
+  </div>
+  <div id="map"></div>
+
+  <script>
+    const HAPPO_AREA = [
+      [36.6925, 137.8035],
+      [36.7045, 137.8235]
+    ];
+
+    const REST_SPOTS = [
+      ["うさぎ平テラス", 36.6969771, 137.8157736],
+      ["黒菱レストハウス", 36.7011764, 137.8097853],
+      ["サンテラスぱのらま", 36.7027129, 137.8207766],
+      ["北尾根テラス", 36.7075491, 137.8150045],
+      ["ピラール", 36.6982116, 137.8063349],
+      ["ゴンドラ", 36.7017594, 137.8373627],
+    ];
+
+    const PARKING_SPOTS = [
+      ["第6駐車場", 36.6968059, 137.8390713],
+      ["第9駐車場", 36.7077128, 137.8340093],
+      ["第8駐車場", 36.7114384, 137.8315185],
+    ];
+
+    const statusEl = document.getElementById("status");
+    const locBtn = document.getElementById("locBtn");
+    const watchBtn = document.getElementById("watchBtn");
+
+    const map = L.map("map");
+    map.fitBounds(HAPPO_AREA);
+
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      maxZoom: 19,
+      attribution: '&copy; OpenStreetMap contributors'
+    }).addTo(map);
+
+    const restLayer = L.layerGroup().addTo(map);
+    const parkingLayer = L.layerGroup().addTo(map);
+    const currentLayer = L.layerGroup().addTo(map);
+
+    REST_SPOTS.forEach(([name, lat, lon]) => {
+      L.circleMarker([lat, lon], {
+        radius: 6, color: "green", fillColor: "green", fillOpacity: 0.9
+      }).bindPopup(name).addTo(restLayer);
+    });
+
+    PARKING_SPOTS.forEach(([name, lat, lon]) => {
+      L.circleMarker([lat, lon], {
+        radius: 6, color: "blue", fillColor: "blue", fillOpacity: 0.9
+      }).bindPopup(name).addTo(parkingLayer);
+    });
+
+    L.control.layers(null, {
+      "休憩スポット": restLayer,
+      "駐車場": parkingLayer,
+      "現在地": currentLayer
+    }, { collapsed: false }).addTo(map);
+
+    function setStatus(msg) { statusEl.textContent = msg; }
+
+    function updateCurrentLocation(lat, lon, accuracy) {
+      currentLayer.clearLayers();
+      L.circleMarker([lat, lon], {
+        radius: 9, color: "red", fillColor: "red", fillOpacity: 0.95
+      }).bindPopup("現在地").addTo(currentLayer);
+
+      if (typeof accuracy === "number") {
+        L.circle([lat, lon], {
+          radius: accuracy, color: "red", weight: 1,
+          fillColor: "red", fillOpacity: 0.12
+        }).addTo(currentLayer);
+      }
+      map.setView([lat, lon], Math.max(map.getZoom(), 15));
+    }
+
+    function getLocationOnce() {
+      if (!("geolocation" in navigator)) {
+        setStatus("このブラウザは位置情報に対応していません");
+        return;
+      }
+      setStatus("取得中…（許可が必要です）");
+
+      navigator.geolocation.getCurrentPosition(
+        (pos) => {
+          const { latitude, longitude, accuracy } = pos.coords;
+          updateCurrentLocation(latitude, longitude, accuracy);
+          setStatus(`OK: ${latitude.toFixed(6)}, ${longitude.toFixed(6)}（±${Math.round(accuracy)}m）`);
+        },
+        (err) => {
+          setStatus(`失敗: ${err.message}（HTTPS/許可/端末位置情報ONを確認）`);
+        },
+        { enableHighAccuracy: true, timeout: 10000, maximumAge: 1000 }
+      );
+    }
+
+    let watchId = null;
+    function toggleWatch() {
+      if (!("geolocation" in navigator)) return;
+
+      if (watchId == null) {
+        watchId = navigator.geolocation.watchPosition(
+          (pos) => {
+            const { latitude, longitude, accuracy } = pos.coords;
+            updateCurrentLocation(latitude, longitude, accuracy);
+            setStatus(`追従中: ${latitude.toFixed(6)}, ${longitude.toFixed(6)}（±${Math.round(accuracy)}m）`);
+          },
+          (err) => setStatus(`追従失敗: ${err.message}`),
+          { enableHighAccuracy: true, timeout: 10000, maximumAge: 1000 }
+        );
+        watchBtn.textContent = "追従ON";
+      } else {
+        navigator.geolocation.clearWatch(watchId);
+        watchId = null;
+        watchBtn.textContent = "追従OFF";
+        setStatus("追従停止");
+      }
+    }
+
+    locBtn.addEventListener("click", getLocationOnce);
+    watchBtn.addEventListener("click", toggleWatch);
+
+    // 初回に一度取得（不要なら消してOK）
+    getLocationOnce();
+  </script>
+</body>
+</html>

@@ -1,1 +1,446 @@
-# happo-map
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_a9dc6387e2c9837402c0a2d7a73a526a {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+
+            <style>html, body {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+            </style>
+
+            <style>#map {
+                position:absolute;
+                top:0;
+                bottom:0;
+                right:0;
+                left:0;
+                }
+            </style>
+
+            <script>
+                L_NO_TOUCH = false;
+                L_DISABLE_3D = false;
+            </script>
+
+        
+</head>
+<body>
+    
+    
+            <div class="folium-map" id="map_a9dc6387e2c9837402c0a2d7a73a526a" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_a9dc6387e2c9837402c0a2d7a73a526a = L.map(
+                "map_a9dc6387e2c9837402c0a2d7a73a526a",
+                {
+                    center: [0.0, 0.0],
+                    crs: L.CRS.EPSG3857,
+                    ...{
+  "zoom": 1,
+  "zoomControl": true,
+  "preferCanvas": false,
+}
+
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_a52f8a0f7c5a33061c0ff492b1bfe566 = L.tileLayer(
+                "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+                {
+  "minZoom": 0,
+  "maxZoom": 19,
+  "maxNativeZoom": 19,
+  "noWrap": false,
+  "attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors",
+  "subdomains": "abc",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_a52f8a0f7c5a33061c0ff492b1bfe566.addTo(map_a9dc6387e2c9837402c0a2d7a73a526a);
+        
+    
+            map_a9dc6387e2c9837402c0a2d7a73a526a.fitBounds(
+                [[36.6925, 137.8035], [36.7045, 137.8235]],
+                {}
+            );
+
+            // ===== 八方エリア固定 =====
+const HAPPO_BOUNDS = L.latLngBounds(
+  [36.6915, 137.8025],
+  [36.7055, 137.8245]
+);
+
+// エリア外へドラッグできない
+map_a9dc6387e2c9837402c0a2d7a73a526a.setMaxBounds(HAPPO_BOUNDS);
+map_a9dc6387e2c9837402c0a2d7a73a526a.options.maxBoundsViscosity = 1.0;
+
+// ズーム制限（好みに応じて調整可）
+map_a9dc6387e2c9837402c0a2d7a73a526a.setMinZoom(14);
+map_a9dc6387e2c9837402c0a2d7a73a526a.setMaxZoom(18);
+        
+    
+            var circle_marker_9453d9663cfa829467245e6bef494297 = L.circleMarker(
+                [36.7, 137.816],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 9, "stroke": true, "weight": 3}
+            ).addTo(map_a9dc6387e2c9837402c0a2d7a73a526a);
+        
+    
+        var popup_0ba892474e78f6f793f5df5fc95ad054 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_dd830deb6784e6be951232d499b694f9 = $(`<div id="html_dd830deb6784e6be951232d499b694f9" style="width: 100.0%; height: 100.0%;">現在地(固定)</div>`)[0];
+                popup_0ba892474e78f6f793f5df5fc95ad054.setContent(html_dd830deb6784e6be951232d499b694f9);
+            
+        
+
+        circle_marker_9453d9663cfa829467245e6bef494297.bindPopup(popup_0ba892474e78f6f793f5df5fc95ad054)
+        ;
+
+        
+    
+    
+            var feature_group_8f73d886ae01ab74bbecaa943d435677 = L.featureGroup(
+                {
+}
+            );
+        
+    
+            var circle_marker_82a08e984f354f359509d0d4d92f2a8f = L.circleMarker(
+                [36.6969771, 137.8157736],
+                {"bubblingMouseEvents": true, "color": "green", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "green", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_8f73d886ae01ab74bbecaa943d435677);
+        
+    
+        var popup_fac455ad72a7a6b151166062ca621fad = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_4dae40aefc46a9f2c927baa5f5666559 = $(`<div id="html_4dae40aefc46a9f2c927baa5f5666559" style="width: 100.0%; height: 100.0%;">うさぎ平テラス</div>`)[0];
+                popup_fac455ad72a7a6b151166062ca621fad.setContent(html_4dae40aefc46a9f2c927baa5f5666559);
+            
+        
+
+        circle_marker_82a08e984f354f359509d0d4d92f2a8f.bindPopup(popup_fac455ad72a7a6b151166062ca621fad)
+        ;
+
+        
+    
+    
+            var circle_marker_d767da029f62677d9f32473c02f136e9 = L.circleMarker(
+                [36.7011764, 137.8097853],
+                {"bubblingMouseEvents": true, "color": "green", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "green", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_8f73d886ae01ab74bbecaa943d435677);
+        
+    
+        var popup_963b005180a09e3810e64cd28283fc19 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_7a50cc611b5970d4b1224d323db46ede = $(`<div id="html_7a50cc611b5970d4b1224d323db46ede" style="width: 100.0%; height: 100.0%;">黒菱レストハウス</div>`)[0];
+                popup_963b005180a09e3810e64cd28283fc19.setContent(html_7a50cc611b5970d4b1224d323db46ede);
+            
+        
+
+        circle_marker_d767da029f62677d9f32473c02f136e9.bindPopup(popup_963b005180a09e3810e64cd28283fc19)
+        ;
+
+        
+    
+    
+            var circle_marker_264cc91a553111960c338f850ae17177 = L.circleMarker(
+                [36.7027129, 137.8207766],
+                {"bubblingMouseEvents": true, "color": "green", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "green", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_8f73d886ae01ab74bbecaa943d435677);
+        
+    
+        var popup_14b6dcfa0d35d05c058d407d206b3d85 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_870df368d5b400c56a24abdcc47640ed = $(`<div id="html_870df368d5b400c56a24abdcc47640ed" style="width: 100.0%; height: 100.0%;">サンテラスぱのらま</div>`)[0];
+                popup_14b6dcfa0d35d05c058d407d206b3d85.setContent(html_870df368d5b400c56a24abdcc47640ed);
+            
+        
+
+        circle_marker_264cc91a553111960c338f850ae17177.bindPopup(popup_14b6dcfa0d35d05c058d407d206b3d85)
+        ;
+
+        
+    
+    
+            var circle_marker_c75b0fd07df7e22049d93a86aa8316bf = L.circleMarker(
+                [36.7075491, 137.8150045],
+                {"bubblingMouseEvents": true, "color": "green", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "green", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_8f73d886ae01ab74bbecaa943d435677);
+        
+    
+        var popup_ef2ba02cfefc084f31917b3cebc05518 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_505d265b8054a9f14db4caf0e8c94b41 = $(`<div id="html_505d265b8054a9f14db4caf0e8c94b41" style="width: 100.0%; height: 100.0%;">北尾根テラス</div>`)[0];
+                popup_ef2ba02cfefc084f31917b3cebc05518.setContent(html_505d265b8054a9f14db4caf0e8c94b41);
+            
+        
+
+        circle_marker_c75b0fd07df7e22049d93a86aa8316bf.bindPopup(popup_ef2ba02cfefc084f31917b3cebc05518)
+        ;
+
+        
+    
+    
+            var circle_marker_9ea6d9ef11f1b88d11ec4746bf124530 = L.circleMarker(
+                [36.6982116, 137.8063349],
+                {"bubblingMouseEvents": true, "color": "green", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "green", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_8f73d886ae01ab74bbecaa943d435677);
+        
+    
+        var popup_2d9bdbbebdfb77c4c5aa899386a2866f = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_1449a3715a7591c1abb28887c1dc64fc = $(`<div id="html_1449a3715a7591c1abb28887c1dc64fc" style="width: 100.0%; height: 100.0%;">ピラール</div>`)[0];
+                popup_2d9bdbbebdfb77c4c5aa899386a2866f.setContent(html_1449a3715a7591c1abb28887c1dc64fc);
+            
+        
+
+        circle_marker_9ea6d9ef11f1b88d11ec4746bf124530.bindPopup(popup_2d9bdbbebdfb77c4c5aa899386a2866f)
+        ;
+
+        
+    
+    
+            var circle_marker_cc1c5914af85c1e4253a8e34f6bdb62f = L.circleMarker(
+                [36.7017594, 137.8373627],
+                {"bubblingMouseEvents": true, "color": "green", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "green", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_8f73d886ae01ab74bbecaa943d435677);
+        
+    
+        var popup_8bab52c172bb686b87a652c54a1a1901 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_9f4078b181565c7c0a4ee700dbc9c523 = $(`<div id="html_9f4078b181565c7c0a4ee700dbc9c523" style="width: 100.0%; height: 100.0%;">ゴンドラ</div>`)[0];
+                popup_8bab52c172bb686b87a652c54a1a1901.setContent(html_9f4078b181565c7c0a4ee700dbc9c523);
+            
+        
+
+        circle_marker_cc1c5914af85c1e4253a8e34f6bdb62f.bindPopup(popup_8bab52c172bb686b87a652c54a1a1901)
+        ;
+
+        
+    
+    
+            feature_group_8f73d886ae01ab74bbecaa943d435677.addTo(map_a9dc6387e2c9837402c0a2d7a73a526a);
+        
+    
+            var feature_group_0b2b1e2603b2c86b9b5eb23a9a5a4925 = L.featureGroup(
+                {
+}
+            );
+        
+    
+            var circle_marker_c60fb65b09637e38905993504e588ae7 = L.circleMarker(
+                [36.6968059, 137.8390713],
+                {"bubblingMouseEvents": true, "color": "blue", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "blue", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_0b2b1e2603b2c86b9b5eb23a9a5a4925);
+        
+    
+        var popup_e8fe19e3b0291f94f435aea2a153b7db = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_d28b31544475041e4dfdd41a4416a37a = $(`<div id="html_d28b31544475041e4dfdd41a4416a37a" style="width: 100.0%; height: 100.0%;">第6駐車場</div>`)[0];
+                popup_e8fe19e3b0291f94f435aea2a153b7db.setContent(html_d28b31544475041e4dfdd41a4416a37a);
+            
+        
+
+        circle_marker_c60fb65b09637e38905993504e588ae7.bindPopup(popup_e8fe19e3b0291f94f435aea2a153b7db)
+        ;
+
+        
+    
+    
+            var circle_marker_2e50e84797ca1a8dca337cf1ad635be7 = L.circleMarker(
+                [36.7077128, 137.8340093],
+                {"bubblingMouseEvents": true, "color": "blue", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "blue", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_0b2b1e2603b2c86b9b5eb23a9a5a4925);
+        
+    
+        var popup_9ae3deb8aac6c8866911e9fe8ca1898c = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_642ca78ec24dd438d8c91ebe3d0cffb3 = $(`<div id="html_642ca78ec24dd438d8c91ebe3d0cffb3" style="width: 100.0%; height: 100.0%;">第9駐車場</div>`)[0];
+                popup_9ae3deb8aac6c8866911e9fe8ca1898c.setContent(html_642ca78ec24dd438d8c91ebe3d0cffb3);
+            
+        
+
+        circle_marker_2e50e84797ca1a8dca337cf1ad635be7.bindPopup(popup_9ae3deb8aac6c8866911e9fe8ca1898c)
+        ;
+
+        
+    
+    
+            var circle_marker_9d7adb0ab391fed18285523178341666 = L.circleMarker(
+                [36.7114384, 137.8315185],
+                {"bubblingMouseEvents": true, "color": "blue", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "blue", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_0b2b1e2603b2c86b9b5eb23a9a5a4925);
+        
+    
+        var popup_121001da15a6434fbbe298f58cd7cf79 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_bbb6ee90ffe1182175fb1404596b149c = $(`<div id="html_bbb6ee90ffe1182175fb1404596b149c" style="width: 100.0%; height: 100.0%;">第8駐車場</div>`)[0];
+                popup_121001da15a6434fbbe298f58cd7cf79.setContent(html_bbb6ee90ffe1182175fb1404596b149c);
+            
+        
+
+        circle_marker_9d7adb0ab391fed18285523178341666.bindPopup(popup_121001da15a6434fbbe298f58cd7cf79)
+        ;
+
+        
+    
+    
+            feature_group_0b2b1e2603b2c86b9b5eb23a9a5a4925.addTo(map_a9dc6387e2c9837402c0a2d7a73a526a);
+        
+    
+            var layer_control_de3a26288ecc6282c5e4ea483f21996e_layers = {
+                base_layers : {
+                    "openstreetmap" : tile_layer_a52f8a0f7c5a33061c0ff492b1bfe566,
+                },
+                overlays :  {
+                    "\u4f11\u61a9\u30b9\u30dd\u30c3\u30c8" : feature_group_8f73d886ae01ab74bbecaa943d435677,
+                    "\u99d0\u8eca\u5834" : feature_group_0b2b1e2603b2c86b9b5eb23a9a5a4925,
+                },
+            };
+            let layer_control_de3a26288ecc6282c5e4ea483f21996e = L.control.layers(
+                layer_control_de3a26288ecc6282c5e4ea483f21996e_layers.base_layers,
+                layer_control_de3a26288ecc6282c5e4ea483f21996e_layers.overlays,
+                {
+  "position": "topright",
+  "collapsed": false,
+  "autoZIndex": true,
+}
+            ).addTo(map_a9dc6387e2c9837402c0a2d7a73a526a);
+// ===== 追加：スマホGPSで現在地を更新 =====
+(function () {
+  const map = map_a9dc6387e2c9837402c0a2d7a73a526a;
+  const marker = circle_marker_9453d9663cfa829467245e6bef494297;
+
+  let accuracyCircle = null;
+
+  function update(lat, lon, accuracy) {
+    marker.setLatLng([lat, lon]);
+    marker.setPopupContent("現在地");
+
+    if (typeof accuracy === "number") {
+      if (!accuracyCircle) {
+        accuracyCircle = L.circle([lat, lon], {
+          radius: accuracy,
+          color: "red",
+          weight: 1,
+          fillColor: "red",
+          fillOpacity: 0.12,
+        }).addTo(map);
+      } else {
+        accuracyCircle.setLatLng([lat, lon]);
+        accuracyCircle.setRadius(accuracy);
+      }
+    }
+  }
+
+  function start() {
+    if (!("geolocation" in navigator)) {
+      alert("このブラウザは位置情報に対応していません");
+      return;
+    }
+
+    // 追従（移動したら更新）
+    navigator.geolocation.watchPosition(
+      (pos) => {
+        const { latitude, longitude, accuracy } = pos.coords;
+        update(latitude, longitude, accuracy);
+        // 現在地へ寄せたい場合は↓をON（不要ならコメントのまま）
+        // map.setView([latitude, longitude], Math.max(map.getZoom(), 15));
+      },
+      (err) => {
+        alert(
+          "現在地を取得できませんでした。\nHTTPSで開いているか、位置情報を許可しているか確認してください。\n\n" +
+            err.message
+        );
+      },
+      { enableHighAccuracy: true, timeout: 10000, maximumAge: 1000 }
+    );
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", start);
+  } else {
+    start();
+  }
+})();
+        
+</script>
+</html># happo-map

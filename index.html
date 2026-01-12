@@ -105,8 +105,8 @@
 
             // ===== 八方エリア固定 =====
 const HAPPO_BOUNDS = L.latLngBounds(
-  [36.6925, 137.8035], // 南西
-  [36.7045, 137.8235]  // 北東
+  [36.6915, 137.8025],
+  [36.7055, 137.8245]
 );
 
 // エリア外へドラッグできない
@@ -384,7 +384,63 @@ map_a9dc6387e2c9837402c0a2d7a73a526a.setMaxZoom(18);
   "autoZIndex": true,
 }
             ).addTo(map_a9dc6387e2c9837402c0a2d7a73a526a);
+// ===== 追加：スマホGPSで現在地を更新 =====
+(function () {
+  const map = map_a9dc6387e2c9837402c0a2d7a73a526a;
+  const marker = circle_marker_9453d9663cfa829467245e6bef494297;
 
+  let accuracyCircle = null;
+
+  function update(lat, lon, accuracy) {
+    marker.setLatLng([lat, lon]);
+    marker.setPopupContent("現在地");
+
+    if (typeof accuracy === "number") {
+      if (!accuracyCircle) {
+        accuracyCircle = L.circle([lat, lon], {
+          radius: accuracy,
+          color: "red",
+          weight: 1,
+          fillColor: "red",
+          fillOpacity: 0.12,
+        }).addTo(map);
+      } else {
+        accuracyCircle.setLatLng([lat, lon]);
+        accuracyCircle.setRadius(accuracy);
+      }
+    }
+  }
+
+  function start() {
+    if (!("geolocation" in navigator)) {
+      alert("このブラウザは位置情報に対応していません");
+      return;
+    }
+
+    // 追従（移動したら更新）
+    navigator.geolocation.watchPosition(
+      (pos) => {
+        const { latitude, longitude, accuracy } = pos.coords;
+        update(latitude, longitude, accuracy);
+        // 現在地へ寄せたい場合は↓をON（不要ならコメントのまま）
+        // map.setView([latitude, longitude], Math.max(map.getZoom(), 15));
+      },
+      (err) => {
+        alert(
+          "現在地を取得できませんでした。\nHTTPSで開いているか、位置情報を許可しているか確認してください。\n\n" +
+            err.message
+        );
+      },
+      { enableHighAccuracy: true, timeout: 10000, maximumAge: 1000 }
+    );
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", start);
+  } else {
+    start();
+  }
+})();
         
 </script>
 </html>

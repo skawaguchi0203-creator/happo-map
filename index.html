@@ -109,13 +109,7 @@ const HAPPO_BOUNDS = L.latLngBounds(
   [36.7055, 137.8245]
 );
 
-// 少し余白を作って「ちょいスクロール」できるようにする
-const HAPPO_BOUNDS_PAD = HAPPO_BOUNDS.pad(0.15); // 0.10〜0.25で好み調整
 
-map_a9dc6387e2c9837402c0a2d7a73a526a.setMaxBounds(HAPPO_BOUNDS_PAD);
-
-// ここが肝：1.0 は戻りが強すぎる。0〜0.2 が自然
-map_a9dc6387e2c9837402c0a2d7a73a526a.options.maxBoundsViscosity = 0.05;
 
 // ズーム制限（好みに応じて調整可）
 map_a9dc6387e2c9837402c0a2d7a73a526a.setMinZoom(14);

@@ -99,12 +99,15 @@
         
     
             // 初期表示：八方エリア（余白つきで表示）
-const START_BOUNDS = HAPPO_BOUNDS.pad(0.35); // 0.2〜0.6で調整
+// ===== 初期表示：サンテラスぱのらまを中心に =====
+const START_CENTER = [36.7027129, 137.8207766]; // サンテラスぱのらま
+const START_ZOOM = 16; // 15〜17あたりが見やすい
 
-map_a9dc6387e2c9837402c0a2d7a73a526a.fitBounds(START_BOUNDS, {
-  animate: false,
-  maxZoom: 16
-});
+map_a9dc6387e2c9837402c0a2d7a73a526a.setView(
+  START_CENTER,
+  START_ZOOM,
+  { animate: false }
+);
 
             // ===== 八方エリア固定 =====
 const HAPPO_BOUNDS = L.latLngBounds(

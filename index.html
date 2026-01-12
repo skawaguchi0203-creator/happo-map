@@ -98,10 +98,13 @@
             tile_layer_a52f8a0f7c5a33061c0ff492b1bfe566.addTo(map_a9dc6387e2c9837402c0a2d7a73a526a);
         
     
-            map_a9dc6387e2c9837402c0a2d7a73a526a.fitBounds(
-                [[36.6925, 137.8035], [36.7045, 137.8235]],
-                {}
-            );
+            // 初期表示：八方エリア（余白つきで表示）
+const START_BOUNDS = HAPPO_BOUNDS.pad(0.35); // 0.2〜0.6で調整
+
+map_a9dc6387e2c9837402c0a2d7a73a526a.fitBounds(START_BOUNDS, {
+  animate: false,
+  maxZoom: 16
+});
 
             // ===== 八方エリア固定 =====
 const HAPPO_BOUNDS = L.latLngBounds(

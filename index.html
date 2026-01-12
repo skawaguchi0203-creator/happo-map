@@ -109,9 +109,9 @@ const HAPPO_BOUNDS = L.latLngBounds(
   [36.7055, 137.8245]
 );
 
-// エリア外へドラッグできない
-map_a9dc6387e2c9837402c0a2d7a73a526a.setMaxBounds(HAPPO_BOUNDS);
-map_a9dc6387e2c9837402c0a2d7a73a526a.options.maxBoundsViscosity = 1.0;
+const HAPPO_BOUNDS_PAD = HAPPO_BOUNDS.pad(0.15); // 余白(15%)：好みで 0.10〜0.25
+map_a9dc6387e2c9837402c0a2d7a73a526a.setMaxBounds(HAPPO_BOUNDS_PAD);
+map_a9dc6387e2c9837402c0a2d7a73a526a.options.maxBoundsViscosity = 0.25;
 
 // ズーム制限（好みに応じて調整可）
 map_a9dc6387e2c9837402c0a2d7a73a526a.setMinZoom(14);
